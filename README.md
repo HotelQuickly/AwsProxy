@@ -16,7 +16,7 @@ $config = array(
   accessKeyId => xxx,
   secretAccessKeyId => xxx,
   region => 'ap-southeast-1',
-  bucket => 'test-bucket'
+  bucket => 'test-bucket' // you can modify later by calling $s3Client->setBucket('another-bucket')
 );
 
 $s3Client = new \HQ\Aws\S3Proxy($config);
