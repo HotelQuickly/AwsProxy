@@ -1,5 +1,5 @@
 {
-	"name": "HotelQuickly/AwsProxy",
+	"name": "hotel-quickly/aws-proxy",
 	"type": "library",
 	"description": "Proxy for AWS PHP library",
 	"keywords": ["aws", "s3", "php"],
