@@ -1,0 +1,24 @@
+{
+	"name": "HotelQuickly/AwsProxy",
+	"type": "library",
+	"description": "Proxy for AWS PHP library",
+	"keywords": ["aws", "s3", "php"],
+	"homepage": "http://www.HotelQuickly.com",
+	"license": "MIT",
+	"authors": [
+		{
+			"name": "Josef Nevoral",
+			"email": "josef.nevoral@hotelquickly.com",
+			"homepage": "http://www.josef-nevoral.cz"
+		}
+	],
+	"require": {
+		"php": ">= 5.4.0",
+		"aws/aws-sdk-php": "2.4.*"
+	},
+	"autoload": {
+		"psr-0": {
+			"ErrorCollector": "src/"
+		}
+	}
+}
