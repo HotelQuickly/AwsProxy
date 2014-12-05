@@ -8,6 +8,7 @@ For documentation of AWS SDK PHP library see [documentation](http://aws.amazon.c
 
 ### Implemented proxies for services
 - S3 storage service
+- DynamoDB
 
 ### Usage
 
@@ -50,6 +51,51 @@ $s3Client->deleteFile($filePath);
 // optional second parameter specify how long should be URL valid
 $s3Client->getObjectUrl($key);
 ```
+
+#### DynamoDB
+Proxy automatically converts php arrays to format required by DynamoDB
+
+```php
+$config = array(
+  accessKeyId => xxx,
+  secretAccessKeyId => xxx,
+  region => 'ap-southeast-1'
+);
+
+$dynamoDbClient = new \HQ\Aws\DynamoDbProxy($config);
+
+// insert data
+$this->dynamoDbProxy->setTableName('tableName')
+	->insert(array(
+		'id' => 23,
+		'name' => 'Test name',
+		'purpose' => 'To show how'
+	));
+
+// update data
+$this->dynamoDbProxy
+	->setTableName('tableName')
+	->update(array('id' => 23), array(
+		'name' => 'Correct name',
+		'description' => 'New description'
+	));
+
+```
+
+Proxy supports primary key consisting with multiple values.
+
+For update, you need to provide array of values for primary key
+
+```php
+$this->dynamoDbProxy
+	->setTableName('tableName')
+	->update(array(
+		'id' => 23,
+		'secondaryKey' => 'secondaryValue'
+	), array(
+		'name' => 'Correct name',
+		'description' => 'New description'
+	));
 
 ## The MIT License (MIT)
 
