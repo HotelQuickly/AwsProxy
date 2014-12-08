@@ -96,7 +96,7 @@ $this->dynamoDbProxy
 		'name' => 'Correct name',
 		'description' => 'New description'
 	));
-
+```
 ## The MIT License (MIT)
 
 Copyright (c) 2014 Hotel Quickly Ltd.
