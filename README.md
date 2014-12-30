@@ -98,6 +98,8 @@ $this->dynamoDbProxy
 		'description' => 'New description'
 	));
 
+```
+
 #### SQS queue management
 ```php
 $config = array(
@@ -116,6 +118,7 @@ $this->sqsClient->setQeueuUrl('xxx')
 		'purpose' => 'To show how'
 	));
 
+```
 
 ## The MIT License (MIT)
 
