@@ -56,6 +56,7 @@ class SqsProxy
 	public function setQueueUrl($queueUrl)
 	{
 		$this->queueUrl = $queueUrl;
+		return $this;
 	}
 
 	/**
