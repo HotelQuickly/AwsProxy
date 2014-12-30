@@ -9,6 +9,7 @@ For documentation of AWS SDK PHP library see [documentation](http://aws.amazon.c
 ### Implemented proxies for services
 - S3 storage service
 - DynamoDB
+- SQS queue
 
 ### Usage
 
@@ -96,6 +97,25 @@ $this->dynamoDbProxy
 		'name' => 'Correct name',
 		'description' => 'New description'
 	));
+
+#### SQS queue management
+```php
+$config = array(
+  accessKeyId => xxx,
+  secretAccessKeyId => xxx,
+  region => 'ap-southeast-1'
+);
+
+$sqsClient = new \HQ\Aws\SqsProxy($config);
+
+// insert data
+$this->sqsClient->setQeueuUrl('xxx')
+	->insert(array(
+		'id' => 23,
+		'name' => 'Test name',
+		'purpose' => 'To show how'
+	));
+
 
 ## The MIT License (MIT)
 
