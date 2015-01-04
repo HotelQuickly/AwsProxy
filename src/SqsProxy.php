@@ -29,7 +29,7 @@ class SqsProxy
 	{
 		$this->validateConfigParameters($config);
 
-		// DynamoDb CLIENT
+		// SQS CLIENT
 		$this->sqsClient = SqsClient::factory(array(
 			'key'    => $config['accessKeyId'],
 			'secret' => $config['secretAccessKey'],
@@ -38,6 +38,10 @@ class SqsProxy
 	}
 
 
+	/**
+	 * @param array $data
+	 * @throws \Exception
+	 */
 	public function insert(array $data)
 	{
 		if ( ! $this->queueUrl) {
@@ -47,6 +51,39 @@ class SqsProxy
 		$this->sqsClient->sendMessage(array(
 			'QueueUrl' => $this->queueUrl,
 			'MessageBody' => json_encode($data)
+		));
+	}
+
+
+	/**
+	 * @param int $limit
+	 * @return mixed|null
+	 * @throws \Exception
+	 */
+	public function getMessages($limit = 1)
+	{
+		if ( ! $this->queueUrl) {
+			throw new \Exception('Queue URL needs to be set to existing queue in SQS, now it is empty');
+		}
+
+		$response = $this->sqsClient->receiveMessage(array(
+			'QueueUrl' => $this->queueUrl,
+			'MaxNumberOfMessages' => $limit
+		));
+
+		return $response->get('Messages');
+	}
+
+
+	/**
+	 * @param $receiptHandle
+	 * @return \Guzzle\Service\Resource\Model
+	 */
+	public function deleteMessage($receiptHandle)
+	{
+		return $this->sqsClient->deleteMessage(array(
+			'QueueUrl' => $this->queueUrl,
+			'ReceiptHandle' => $receiptHandle
 		));
 	}
 
