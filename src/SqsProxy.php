@@ -33,7 +33,8 @@ class SqsProxy
 		$this->sqsClient = SqsClient::factory(array(
 			'key'    => $config['accessKeyId'],
 			'secret' => $config['secretAccessKey'],
-			'region' => $config['region']
+			'region' => $config['region'],
+			'version' => '2012-11-05'
 		));
 	}
 
