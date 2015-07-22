@@ -3,7 +3,6 @@
 
 namespace HQ\AwsProxy;
 
-use Aws\DynamoDb\DynamoDbClient;
 use Aws\Sqs\SqsClient;
 
 /**
@@ -30,11 +29,13 @@ class SqsProxy
 		$this->validateConfigParameters($config);
 
 		// SQS CLIENT
-		$this->sqsClient = SqsClient::factory(array(
-			'key'    => $config['accessKeyId'],
-			'secret' => $config['secretAccessKey'],
+		$this->sqsClient = new SqsClient(array(
 			'region' => $config['region'],
-			'version' => '2012-11-05'
+			'version' => '2012-11-05',
+			'credentials' => array(
+				'key'    => $config['accessKeyId'],
+				'secret' => $config['secretAccessKey'],
+			)
 		));
 	}
 
@@ -78,7 +79,7 @@ class SqsProxy
 
 	/**
 	 * @param $receiptHandle
-	 * @return \Guzzle\Service\Resource\Model
+	 * @return mixed
 	 */
 	public function deleteMessage($receiptHandle)
 	{

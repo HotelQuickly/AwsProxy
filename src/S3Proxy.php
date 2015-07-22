@@ -3,7 +3,6 @@
 namespace HQ\AwsProxy;
 
 use Aws\S3\S3Client;
-use Aws\S3\Enum\CannedAcl;
 
 
 /**
@@ -13,7 +12,10 @@ use Aws\S3\Enum\CannedAcl;
  *  @see https://github.com/aws/aws-sdk-php
  *
  */
-class S3Proxy {
+class S3Proxy
+{
+	const PRIVATE_ACCESS = 'private';
+	const PUBLIC_READ = 'public-read';
 
 	/** Aws\S3\S3Client */
 	private $s3Client;
@@ -32,11 +34,13 @@ class S3Proxy {
 		$this->validateConfigParameters($config);
 
 		// S3 CLIENT
-		$this->s3Client = S3Client::factory(array(
-			'key'    => $config['accessKeyId'],
-			'secret' => $config['secretAccessKey'],
+		$this->s3Client = new S3Client(array(
 			'region' => $config['region'],
-			'version'=> '2006-03-01'
+			'version' => '2006-03-01',
+			'credentials' => array(
+				'key'    => $config['accessKeyId'],
+				'secret' => $config['secretAccessKey'],
+			)
 		));
 		$this->bucket = !empty($config['bucket']) ? $config['bucket'] : '';
 
@@ -47,7 +51,7 @@ class S3Proxy {
 	public function getBucket()
 	{
 		if (empty($this->bucket)) {
-			throw new \InvalidStateException('S3 bucket was not defined. Please define it by calling setBucket() method.');
+			throw new \Exception('S3 bucket was not defined. Please define it by calling setBucket() method.');
 		}
 		return $this->bucket;
 	}
@@ -72,7 +76,7 @@ class S3Proxy {
 	 * Uploads file to amazon s3
 	 * @param  string $sourcePath path name to file on local storage
 	 * @param  string $targetPath      path in which would be image saved in S3
-	 * @return                result
+	 * @return
 	 */
 	public function uploadFile($sourcePath, $targetPath, $publicAccess = true)
 	{
@@ -84,7 +88,7 @@ class S3Proxy {
 			'Bucket'     => $this->getBucket(),
 			'Key'        => $targetPath,
 			'SourceFile' => $sourcePath,
-			'ACL'        => $publicAccess ? CannedAcl::PUBLIC_READ : CannedAcl::PRIVATE_ACCESS
+			'ACL'        => $publicAccess ? self::PUBLIC_READ : self::PRIVATE_ACCESS
 		));
 	}
 
@@ -122,7 +126,7 @@ class S3Proxy {
 	 * Copies files on s3 storage
 	 * @param  string $origFilePath   The name of the source bucket and key name of the source object, separated by a slash (/). Must be URL-encoded
 	 * @param  string $targetFilePath new file path
-	 * @return Guzzle\Service\Resource\Model
+	 * @return mixed
 	 */
 	public function copyFile($origFilePath, $targetFilePath, $publicAccess = true)
 	{
@@ -132,7 +136,7 @@ class S3Proxy {
 			'Bucket' => $this->getBucket(),
 			'CopySource' => $origFilePath,
 			'Key'    => $targetFilePath,
-			'ACL'    => $publicAccess ? CannedAcl::PUBLIC_READ : CannedAcl::PRIVATE_ACCESS
+			'ACL'    => $publicAccess ? self::PUBLIC_READ : self::PRIVATE_ACCESS
 		));
 
 		return $result;
