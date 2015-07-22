@@ -35,7 +35,8 @@ class S3Proxy {
 		$this->s3Client = S3Client::factory(array(
 			'key'    => $config['accessKeyId'],
 			'secret' => $config['secretAccessKey'],
-			'region' => $config['region']
+			'region' => $config['region'],
+			'version'=> '2006-03-01'
 		));
 		$this->bucket = !empty($config['bucket']) ? $config['bucket'] : '';
 
