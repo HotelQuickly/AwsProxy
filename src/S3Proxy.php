@@ -93,6 +93,39 @@ class S3Proxy
 	}
 
 	/**
+	 * Store string giving in parameter into file on s3
+	 *
+	 * @param $filePath
+	 * @param $content
+	 * @return
+	 */
+	public function saveContentToFile($filePath, $content)
+	{
+		return $this->s3Client->putObject([
+			'Bucket' => $this->s3bucket,
+			'Key' => $filePath,
+			'Body' => $content
+		]);
+	}
+
+	/**
+	 * Returns string content of file saved in S3
+	 *
+	 * @param $filePath
+	 * @return string
+	 * @throws \Exception
+	 */
+	public function getFileContent($filePath)
+	{
+		$result = $this->s3Client->getObject(array(
+			'Bucket' => $this->getBucket(),
+			'Key'    => $filePath,
+		));
+
+		return (string) $result['Body'];
+	}
+
+	/**
 	 * Checks if file exists on s3 storage
 	 * @param  string  $filePath path to file on s3 storage
 	 * @return boolean
