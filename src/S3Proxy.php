@@ -102,7 +102,7 @@ class S3Proxy
 	public function saveContentToFile($filePath, $content)
 	{
 		return $this->s3Client->putObject([
-			'Bucket' => $this->s3bucket,
+			'Bucket' => $this->getBucket(),
 			'Key' => $filePath,
 			'Body' => $content
 		]);
