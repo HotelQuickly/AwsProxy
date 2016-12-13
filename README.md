@@ -51,6 +51,10 @@ $s3Client->deleteFile($filePath);
 // return publicly accessible URL for given object
 // optional second parameter specify how long should be URL valid
 $s3Client->getObjectUrl($key);
+
+// return whole s3 object
+// optional second parameter for configuration
+$s3Client->getObject($key);
 ```
 
 #### DynamoDB

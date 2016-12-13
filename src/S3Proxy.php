@@ -249,6 +249,19 @@ class S3Proxy
 	}
 
 	/**
+	 * @param string path to file on s3
+	 * @param array
+	 * @return Aws\Result
+	 */
+	public function getObject($key, array $options = array())
+	{
+		return $this->s3Client->getObject(array(
+			'Bucket' => $this->getBucket(),
+			'Key'    => $key,
+		) + $options);
+	}
+
+	/**
 	 *	Creates copy of an object and delete the original.
 	 * @param  string $origFilePath	  Key name of the source object
 	 * @param  string $targetFilePath New file path
