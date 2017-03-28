@@ -76,12 +76,13 @@ class S3Proxy
 	 * Uploads file to amazon s3
 	 * @param  string $sourcePath path name to file on local storage
 	 * @param  string $targetPath      path in which would be image saved in S3
+	 * @param  bool $allowRewriteFile
 	 * @return
 	 */
-	public function uploadFile($sourcePath, $targetPath, $publicAccess = true)
+	public function uploadFile($sourcePath, $targetPath, $publicAccess = true, $allowRewriteFile = false)
 	{
 		// check if the file does not already exists, if exist, don't upload
-		if ($this->isFile($targetPath)) {
+		if ($allowRewriteFile !== true && $this->isFile($targetPath)) {
 			return false;
 		}
 		return $this->s3Client->putObject(array(
