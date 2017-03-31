@@ -226,9 +226,6 @@ class S3Proxy
 
 	public function deleteFile($filePath)
 	{
-		if (substr($filePath, 0, 1) != '/') {
-			$filePath = '/'.$filePath;
-		}
 		$result = $this->s3Client->deleteObject(array(
 			'Bucket' => $this->getBucket(),
 			'Key'    => $filePath
