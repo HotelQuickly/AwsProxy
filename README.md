@@ -28,7 +28,8 @@ $s3Client = new \HQ\Aws\S3Proxy($config);
 $s3Client->downloadFile($s3FilePath, $localFilePath);
 
 // optional 3rd parameter declaring if file should be publicaly accessible (default is false)
-$s3Client->uploadFile($sourcePath, $s3FilePath, true);
+// optional 4rd parameter declaring if file should be rewriten when exists on s3 (default is false)
+$s3Client->uploadFile($sourcePath, $s3FilePath, true, false);
 
 // determines if given file exists in s3 storage
 $s3Client->isFile($s3FilePath);
